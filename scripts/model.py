@@ -1,9 +1,10 @@
 import re
 from abc import abstractmethod
-from typing import List
+from typing import List, Iterable
 from http import HTTPStatus
 
 import requests
+from openai.types.chat import ChatCompletionMessageParam
 
 from scripts.wrap_tool import WrapTool
 from utils import print_with_color, encode_image
@@ -14,7 +15,7 @@ class BaseModel:
         pass
 
     @abstractmethod
-    def get_model_response(self, prompt: str, images: List[str]) -> (bool, str):
+    def get_model_response(self, messages) -> (bool, str):
         pass
 
 
@@ -29,6 +30,6 @@ class OpenAIModel(BaseModel):
         self.max_tokens = max_tokens
         self.tools = tools
 
-    def get_model_response(self, prompt: str, images: List[str]) -> (bool, str):
+    def get_model_response(self, messages: Iterable[ChatCompletionMessageParam]) -> (bool, str):
         pass
     # todo 待补充
